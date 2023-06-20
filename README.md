@@ -5,3 +5,7 @@ thit is ment to be run on LAN
 This is for educational purposes only
 
 the script is prebaked and needs some manual editing if you whant to be used (for now)
+
+
+pip installs
+  lxml requests bs4 transmission_rpc
