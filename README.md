@@ -1,3 +1,11 @@
 # Auto add magnetlinks 
 Homelab auto add magnet
-that is ment to be run on LAN
+thit is ment to be run on LAN
+
+This is for educational purposes only
+
+the script is prebaked and needs some manual editing if you whant to be used (for now)
+
+
+pip installs
+  lxml requests bs4 transmission_rpc
