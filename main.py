@@ -159,7 +159,4 @@ def start():
 
 start()
 
-#for link in soup.find_all('a',attrs={'href': re.compile("^magnet:/?.*"+name[1], re.IGNORECASE)}):
-#                    print(link.get('href'))
-
 
