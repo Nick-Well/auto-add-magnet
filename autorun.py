@@ -19,7 +19,6 @@ def get_data():
     global folder
     with open("drive", "r") as f:
         info = f.readline().split()
-    print(info)
     mountPoint = info[0]
     shows = info[1]
     movies = info[2]
@@ -33,7 +32,6 @@ def get_data():
 
 
 def increment_episode(episode):
-    print(mountPoint + "")
     print("incremented")
     season = episode[1:3]
     episode_num = int(episode[4:])
@@ -65,7 +63,6 @@ def lookForName():
     global docomentery
     global folder
     print("looking for names and incrementing")
-    print(mountPoint+ "look")
     writeLines = []
     lastEp = "S00E00"
     with open("download.txt", "r") as f:
@@ -102,18 +99,17 @@ def getMagnet():
     global docomentery
     global folder
     print("get magnet link")
-    print(mountPoint+ "get")
     with open("download.txt", "r") as f:
         for line in f:
             name = line.split()
-            print(name[1])
+            #print(name[1])
             first = "https://www.magnetdl.org"
             URL = "https://www.magnetdl.org/"+ name[1][0] +"/" + name[1] +"-"+ name[2] +"-1080p-h264/se/desc/"
-            print(URL)
+            #print(URL)
             with requests.Session() as session:
                 session.headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}
                 page = requests.get(first)
-                print(page)
+                #print(page)
                 response = session.get(URL, headers={"Accept" : "application/json, text/javascript, */*; q=0.01", "X-Requested-With": "XMLHttpRequest", "Referer": "https://www.magnetdl.org", "Host": "www.magnetdl.org"})
                 soup = BeautifulSoup(response.content, "lxml")
                 link = soup.find('a',attrs={'href': re.compile("^magnet:/?.*"+name[1]+".*"+name[2], re.IGNORECASE)})
