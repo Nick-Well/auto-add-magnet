@@ -3,7 +3,9 @@
 Homelab auto add magnet</br>
 thit is ment to be run on LAN</br>
 
-
+run startup.py first and then ether run 
+autorun.py manualy or as an cron job</br>
+</br>
 
 This is for educational purposes only</br>
 </br>
