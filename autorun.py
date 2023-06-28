@@ -23,7 +23,10 @@ def get_data():
     global folder
     with open("drive", "r") as f:
         info = f.readline().split()
+<<<<<<< HEAD
     #print(info)
+=======
+>>>>>>> 3d3ae27d373fd493dbbb2460c7d884882329be08
     mountPoint = info[0]
     shows = info[1]
     movies = info[2]
@@ -37,7 +40,10 @@ def get_data():
 
 
 def increment_episode(episode):
+<<<<<<< HEAD
     #print(episode)
+=======
+>>>>>>> 3d3ae27d373fd493dbbb2460c7d884882329be08
     print("incremented")
     season = episode[1:3]
     episode_num = int(episode[4:])
