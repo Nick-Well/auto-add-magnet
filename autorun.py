@@ -5,11 +5,15 @@ from bs4 import BeautifulSoup
 from transmission_rpc import Client
 
 
-mountPoint = ""
-shows = ""
-movies = ""
-docomentery = ""
-folder = "/"
+
+class location:
+    def __init__(self,mountPoint,shows,movies,deocomentery,folder):
+        self.mountPoint = mountPoint
+        self.shows = shows
+        self.movies = movies
+        self.docomentery = docomentery
+        self.folder = folder
+    
 
 def get_data():
     global mountPoint
@@ -19,7 +23,7 @@ def get_data():
     global folder
     with open("drive", "r") as f:
         info = f.readline().split()
-    print(info)
+    #print(info)
     mountPoint = info[0]
     shows = info[1]
     movies = info[2]
@@ -33,11 +37,12 @@ def get_data():
 
 
 def increment_episode(episode):
-    print(mountPoint + "")
+    #print(episode)
     print("incremented")
     season = episode[1:3]
     episode_num = int(episode[4:])
     episode_num += 1
+    #print(str(season)+str(episode_num))
     new_episode = f"s{season}e{episode_num:02d}"
     return new_episode
 
@@ -65,13 +70,12 @@ def lookForName():
     global docomentery
     global folder
     print("looking for names and incrementing")
-    print(mountPoint+ "look")
     writeLines = []
-    lastEp = "S00E00"
     with open("download.txt", "r") as f:
         for line in f:
             testWord = 0
             line = line.split()
+            lastEp = "S00E00"
             while testWord != 2:
                 if testWord == 1:
                     name = line[1]
@@ -90,8 +94,9 @@ def lookForName():
                         if lastEp < text[0]:
                             lastEp = text[0]
             writeLines.append(str(line[0] +" "+ line[1] +" "+ increment_episode(lastEp) +"\n").lower())
-    with open("download.txt", "w") as w:
-        w.writelines(writeLines)
+            #print(writeLines)
+        with open("download.txt", "w") as w:
+            w.writelines(writeLines)
     getMagnet()
             
             
@@ -102,23 +107,22 @@ def getMagnet():
     global docomentery
     global folder
     print("get magnet link")
-    print(mountPoint+ "get")
     with open("download.txt", "r") as f:
         for line in f:
             name = line.split()
-            print(name[1])
+            #print(name[1])
             first = "https://www.magnetdl.org"
             URL = "https://www.magnetdl.org/"+ name[1][0] +"/" + name[1] +"-"+ name[2] +"-1080p-h264/se/desc/"
-            print(URL)
+            #print(URL)
             with requests.Session() as session:
                 session.headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}
                 page = requests.get(first)
-                print(page)
+                #print(page)
                 response = session.get(URL, headers={"Accept" : "application/json, text/javascript, */*; q=0.01", "X-Requested-With": "XMLHttpRequest", "Referer": "https://www.magnetdl.org", "Host": "www.magnetdl.org"})
                 soup = BeautifulSoup(response.content, "lxml")
                 link = soup.find('a',attrs={'href': re.compile("^magnet:/?.*"+name[1]+".*"+name[2], re.IGNORECASE)})
                 if link:
-                    print(link.get("href"))
+                    #print(link.get("href"))
                     transmission(link.get('href'), "/downloads"+name[0])
 
 
