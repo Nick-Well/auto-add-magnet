@@ -56,7 +56,7 @@ def serverIp():
 
 def addName():
     while True:
-        name = input("add name: ") or 0
+        name = (input("add name: ") or 0).replace(" ", "-")
         if name == 0:
             print("needs a name")
             break
@@ -76,13 +76,8 @@ def addName():
         print("defult: yes")
         breakIf = input("do you whant to add more: Yes/no ") or "yes"
         if breakIf != "yes":
-            lookForName()
             break
 
 start()
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dc966cecc10a40570e3886b7c82e23e90c841e69
 

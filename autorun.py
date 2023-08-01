@@ -23,7 +23,7 @@ def get_data():
     global folder
     with open("drive", "r") as f:
         info = f.readline().split()
-    #print(info)
+    print(info)
     mountPoint = info[0]
     shows = info[1]
     movies = info[2]
@@ -78,21 +78,32 @@ def lookForName():
             lastEp = "S00E00"
             while testWord != 2:
                 if testWord == 1:
-                    name = line[1]
-                    lineU = name[0].upper() + name[1:]
-                    files = glob.glob(mountPoint + line[0] + "/**/*" + lineU +"*.mkv", recursive=True)
+                    name = (line[1]).replace("-", ".")
+                    print(name)
+                    #lineU = name[0].upper() + name[1:]
+                    
+                    words = [word.capitalize() for word in name.split(".")]
+                    capitalized_name = ".".join(words)
+                    print(capitalized_name)
+
+                    files = glob.glob(mountPoint + line[0] + "/**/*" + capitalized_name + "*.mkv", recursive=True)
+
+                    print(files)
                     for file in files:
                         text = clean_text(file)
                         if len(text) != 0:
+                            print(text[0])
                             if lastEp < text[0]:
                                 lastEp = text[0]
                 files = glob.glob(mountPoint + line[0] + "/**/*" + line[1] +"*.mkv", recursive=True)
+                print(files)
                 testWord+=1
                 for file in files:
                     text = clean_text(file)
                     if len(text) != 0:
                         if lastEp < text[0]:
                             lastEp = text[0]
+                            print(text[0])
             writeLines.append(str(line[0] +" "+ line[1] +" "+ increment_episode(lastEp) +"\n").lower())
             #print(writeLines)
         with open("download.txt", "w") as w:
@@ -111,14 +122,14 @@ def getMagnet():
         for line in f:
             name = line.split()
             #print(name[1])
-            first = "https://www.magnetdl.org"
-            URL = "https://www.magnetdl.org/"+ name[1][0] +"/" + name[1] +"-"+ name[2] +"-1080p-h264/se/desc/"
+            first = "https://www.magnetdl.com"
+            URL = "https://www.magnetdl.com/"+ name[1][0] +"/" + name[1] +"-"+ name[2] +"-1080p-h264/se/desc/"
             #print(URL)
             with requests.Session() as session:
                 session.headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}
                 page = requests.get(first)
                 #print(page)
-                response = session.get(URL, headers={"Accept" : "application/json, text/javascript, */*; q=0.01", "X-Requested-With": "XMLHttpRequest", "Referer": "https://www.magnetdl.org", "Host": "www.magnetdl.org"})
+                response = session.get(URL, headers={"Accept" : "application/json, text/javascript, */*; q=0.01", "X-Requested-With": "XMLHttpRequest", "Referer": "https://www.magnetdl.org", "Host": "www.magnetdl.com"})
                 soup = BeautifulSoup(response.content, "lxml")
                 link = soup.find('a',attrs={'href': re.compile("^magnet:/?.*"+name[1]+".*"+name[2], re.IGNORECASE)})
                 if link:
