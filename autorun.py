@@ -64,7 +64,6 @@ def transmission(magnet, location):
     info = info.readline()
     info = info.split()
     c = Client(host = info[0], port = info[1], username=info[2], password=info[3])
-    #print(info[0]+info[1])
     c.add_torrent(magnet, download_dir=location)
 
 
@@ -84,31 +83,22 @@ def lookForName():
             while testWord != 2:
                 if testWord == 1:
                     name = (line[1]).replace("-", ".")
-                    #print(name)
-                    #lineU = name[0].upper() + name[1:]
-                    
                     words = [word.capitalize() for word in name.split(".")]
                     capitalized_name = ".".join(words)
-                    #print(capitalized_name)
-
                     files = glob.glob(mountPoint + line[0] + "/**/*" + capitalized_name + "*.mkv", recursive=True)
 
-                    #print(files)
                     for file in files:
                         text = clean_text(file)
                         if len(text) != 0:
-                            #print(text[0])
                             if lastEp < text[0]:
                                 lastEp = text[0]
                 files = glob.glob(mountPoint + line[0] + "/**/*" + line[1] +"*.mkv", recursive=True)
-                #print(files)
                 testWord+=1
                 for file in files:
                     text = clean_text(file)
                     if len(text) != 0:
                         if lastEp < text[0]:
                             lastEp = text[0]
-                            #print(text[0])
             writeLines.append(str(line[0] +" "+ line[1] +" "+ increment_episode(line[1], lastEp) +"\n").lower())
             print(writeLines)
         with open("download.txt", "w") as w:
