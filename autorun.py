@@ -36,16 +36,19 @@ def get_data():
 #       so need to check if its already incremented instead of re do it 
 #       every time
 
-
-def increment_episode(episode):
-    #print(episode)
+def increment_episode(name ,episode):
     print("incremented")
-    season = episode[1:3]
+    season = int(episode[1:3])
     episode_num = int(episode[4:])
-    
-    episode_num++
+    #print(season)
+    #print(episode_num)
+    if(checkLastEpisode(name, season, episode_num)):
+        season += 1
+        episode_num = 0
+    episode_num += 1
     #print(str(season)+str(episode_num))
-    new_episode = f"s{season}e{episode_num:02d}"
+    new_episode = f"s{season:02d}e{episode_num:02d}"
+    #print(new_episode)
     return new_episode
 
 
@@ -106,7 +109,7 @@ def lookForName():
                         if lastEp < text[0]:
                             lastEp = text[0]
                             #print(text[0])
-            writeLines.append(str(line[0] +" "+ line[1] +" "+ increment_episode(lastEp) +"\n").lower())
+            writeLines.append(str(line[0] +" "+ line[1] +" "+ increment_episode(line[1], lastEp) +"\n").lower())
             print(writeLines)
         with open("download.txt", "w") as w:
             w.writelines(writeLines)
@@ -156,10 +159,5 @@ def getMagnet():
 
 
 
-#get_data()
-
-
-print(checkLastEpisode("breaking bad", 5, 16))
-
-
+get_data()
 
